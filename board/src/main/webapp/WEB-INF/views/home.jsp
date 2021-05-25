@@ -8,7 +8,7 @@
 <body>
 	<p>${serverTime}</p>
 	
-	<p><a href="/board/list">게시물 목록</a></p>
+	<p><a href="/board/listPageSearch?num=1">게시물 목록</a></p>
 	<p><a href="/board/write">게시물 작성</a></p>
 </body>
 </html>

@@ -46,7 +46,7 @@ public class BoardController {
 		
 		service.write(vo);
 		
-		return "redirect:/board/list";
+		return "redirect:/board/listPageSearch?num=1";
 		
 	}
 	
@@ -81,8 +81,8 @@ public class BoardController {
 
 		service.modify(vo);
 	   
-		return "redirect:/board/view?bno=" + vo.getBno();
-		
+		return "redirect:/board/listPageSearch?num=1";
+			 /*"redirect:/board/view?bno=" + vo.getBno();*/		
 	}
 	
 	// 게시물 삭제 (GET)
@@ -97,8 +97,8 @@ public class BoardController {
 	public String postDelete(@RequestParam("bno") int bno) throws Exception {
 
 		service.delete(bno);
-
-		return "redirect:/board/list";
+		
+		return "redirect:/board/listPageSearch?num=1";
 
 	}
 	
