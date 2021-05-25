@@ -33,8 +33,7 @@
 		UPDATE tbl_board
 			set
 				title = #{title},
-				content = #{content},
-				writer = #{writer}
+				content = #{content}
 			WHERE bno = #{bno}
 	</update>
 	

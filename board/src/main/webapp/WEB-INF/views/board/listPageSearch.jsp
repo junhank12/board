@@ -10,9 +10,14 @@
 	
 	<body>
 	
-	<div id="nav">
-		<%@ include file="../include/nav.jsp" %>
-	</div>
+		<header>
+			<%@ include file="include/header.jsp" %>
+		</header>
+		<hr />		
+		<nav>
+			<%@ include file="include/nav.jsp" %>
+		</nav>
+		<hr />
 	
 	<table>
 		<thead>
@@ -99,6 +104,9 @@
 		location.href = "/board/listPageSearch?num=1" + "&searchType=" + searchType + "&keyword=" + keyword;
 	};
 	</script>
-	
+
+		<footer>
+			<%@ include file="include/footer.jsp" %>
+		</footer>
 	</body>
 </html>

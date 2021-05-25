@@ -13,9 +13,11 @@ import com.board.domain.BoardVO;
 @Repository
 public class BoardDAOImpl implements BoardDAO {
 	
+	// mybatis
 	@Inject
 	private SqlSession sql;
 	
+	// mapper
 	private static String namespace = "com.board.mappers.board";
 	
 	// 게시물 목록

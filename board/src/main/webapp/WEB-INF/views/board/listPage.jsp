@@ -9,9 +9,14 @@
 	</head>
 	<body>
 	
-	<div id="nav">
-		<%@ include file="../include/nav.jsp" %>
-	</div>
+		<header>
+			<%@ include file="include/header.jsp" %>
+		</header>
+		<hr />		
+		<nav>
+			<%@ include file="include/nav.jsp" %>
+		</nav>
+		<hr />
 	
 	<table>
 		<thead>
@@ -73,6 +78,10 @@
 		</c:forEach> --%>
 		
 	</div>
+	
+		<footer>
+		<%@ include file="include/footer.jsp" %>
+		</footer>
 	
 	</body>
 </html>

@@ -30,19 +30,17 @@ public class BoardController {
 	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public void getList(Model model) throws Exception {
 		
-		List<BoardVO> list = null;
-		list = service.list();
+		List<BoardVO> list = service.list();
 		
 		model.addAttribute("list", list);
 		
 	}
 	
-	// 게시물 작성
+	// 게시물 작성 GET (해당 페이지에 접속)
 	@RequestMapping(value="/write", method=RequestMethod.GET)
-	public void getWrite() throws Exception {
-	}
+	public void getWrite() throws Exception {}
 	
-	// 게시물 작성
+	// 게시물 작성 POST (해당 페이지에서 값을 전송)
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String postWrite(BoardVO vo) throws Exception {
 		
@@ -67,17 +65,17 @@ public class BoardController {
 		
 	}
 	
-	// 게시물 수정
+	// 게시물 수정 (GET)
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
 	public void getModify(@RequestParam("bno") int bno, Model model) throws Exception {
 		
 		BoardVO vo = service.view(bno);
 		
-		model.addAttribute("view", vo);
+		model.addAttribute("modify", vo);
 		
 	}
 	
-	// 게시물 수정
+	// 게시물 수정 (POST)
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String postModify(BoardVO vo) throws Exception {
 
@@ -87,14 +85,21 @@ public class BoardController {
 		
 	}
 	
-	// 게시물 삭제
+	// 게시물 삭제 (GET)
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String getDelete(@RequestParam("bno") int bno) throws Exception {
+	public void getDelete(@RequestParam("bno") int bno, Model model) throws Exception {
 	  
+		model.addAttribute("delete", bno);
+	}
+	
+	// 게시물 삭제 (POST)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String postDelete(@RequestParam("bno") int bno) throws Exception {
+
 		service.delete(bno);
 
 		return "redirect:/board/list";
-		
+
 	}
 	
 	// 게시물 목록 + 페이징 추가
