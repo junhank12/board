@@ -30,6 +30,7 @@
 	<c:if test="${member != null}">
 		<p>${member.userName}님 환영합니다</p>
 		
+		<a href="member/modify">회원정보 수정</a><br />
 		<a href="member/logout">로그아웃</a>
 	</c:if>
 </body>
