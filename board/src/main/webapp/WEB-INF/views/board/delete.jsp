@@ -37,16 +37,17 @@
 
 
 			<script>
-
-			// 폼을 변수에 저장
-			var formObj = $("form[role='form']");
-			
-			// 취소 버튼 클릭
-			$("#cancel_btn").click(function(){
-				formObj.attr("action", "/board/view?bno=" + $("#bno").val());
-				formObj.attr("method", "get");
-				formObj.submit();
-			});
+				// 폼을 변수에 저장
+				var formObj = $("form[role='form']");
+				
+				// 취소 버튼 클릭
+				$("#cancel_btn").click(function(){
+					self.location = "/board/read?bno=${delete}"
+						+ "&page=${scri.page}"
+						+ "&perPageNum=${scri.perPageNum}"
+						+ "&searchType=${scri.searchType}"
+						+ "&keyword=${scri.keyword}";
+				});
 			</script>
 			
 			</p>

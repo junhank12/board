@@ -44,66 +44,51 @@
 	</delete>
 	
 	<!-- 게시물 총 갯수 -->
-	<select id="count" resultType="int">
-		select count(bno) from tbl_board
+	<select id="listCount" resultType="int">
+	<![CDATA[
+		select count(bno) from tbl_board 
+			WHERE bno > 0
+	]]>
 	</select>
 	
 	<!-- 게시물 목록 + 페이징 -->
-	<select id="listPage" parameterType="hashMap" resultType="com.board.domain.BoardVO">
-		SELECT
-			bno, title, writer, regDate, viewCnt
-		FROM tbl_board
-		ORDER BY bno desc
-		LIMIT #{displayPost}, #{postNum}
+	<select id="listPage" resultType="com.board.domain.BoardVO" parameterType="com.board.domain.Criteria">
+		select bno, title, content, writer, regDate, viewCnt from (
+			select bno, title, content, writer, regDate, viewCnt,
+			row_number() over(order by bno desc) as rNum from tbl_board
+		) tb
+		where rNum between #{rowStart} and #{rowEnd}
+		order by bno desc
 	</select>
 	
 	<!-- 게시물 목록 + 페이징 + 검색 -->
-	<select id="listPageSearch" parameterType="hashMap" resultType="com.board.domain.BoardVO">
-		SELECT
-			bno, title, writer, regDate, viewCnt
-		FROM tbl_board
-
-	<if test='searchType.equals("title")'>
-		WHERE title LIKE CONCAT('%', #{keyword}, '%')
-	</if>
-	 
-	<if test='searchType.equals("content")'>
-		WHERE content LIKE CONCAT('%', #{keyword}, '%')
-	</if>
-	 
-	<if test='searchType.equals("title_content")'>
-		WHERE title LIKE CONCAT('%', #{keyword}, '%')
-		or content LIKE CONCAT('%', #{keyword}, '%')
-	</if>
-
-	<if test='searchType.equals("writer")'>
-		WHERE writer LIKE CONCAT('%', #{keyword}, '%')
-	</if>
-	
-	ORDER BY bno DESC
-	LIMIT #{displayPost}, #{postNum}
+	<select id="listSearch" resultType="com.board.domain.BoardVO" parameterType="com.board.domain.SearchCriteria">
+		SELECT bno, title, content, writer, regDate, viewCnt FROM (
+			select bno, title, content, writer, regDate, viewCnt, 
+			row_number() over(order by bno desc) as rNum FROM tbl_board where bno > 0
+				<include refid="search"></include> 
+			) tb 
+			WHERE rNum between #{rowStart} and #{rowEnd} 
+			order by bno desc
 	</select>
-	
+
 	<!-- 게시물 총 갯수 + 검색 적용 -->
-	<select id="searchCount" parameterType="hashMap" resultType="int">
-		SELECT COUNT(bno) FROM tbl_board  
-	  
-	<if test='searchType.equals("title")'>
-		WHERE title LIKE CONCAT('%', #{keyword}, '%')
-	</if>
-	 
-	<if test='searchType.equals("content")'>
-		WHERE content LIKE CONCAT('%', #{keyword}, '%')
-	</if>
-	 
-	<if test='searchType.equals("title_content")'>
-		WHERE title LIKE CONCAT('%', #{keyword}, '%')
-		OR content LIKE CONCAT('%', #{keyword}, '%')
-	</if>
-	 
-	<if test='searchType.equals("writer")'>
-		WHERE writer LIKE CONCAT('%', #{keyword}, '%')
-	</if>
-
+	<select id="countSearch" resultType="int">
+		select count(bno)
+		from tbl_board
+	<![CDATA[
+		where bno > 0
+	]]>
+	<include refid="search"></include>
 	</select>
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">and title like '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">and content like '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">and writer like '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">and (title like '%' || #{keyword} || '%') or (content like '%' || #{keyword} || '%') </if>
+		</if>
+	</sql>
+	
 </mapper>

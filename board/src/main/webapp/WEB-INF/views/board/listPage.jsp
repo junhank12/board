@@ -30,6 +30,7 @@
 		</thead>
 		
 		<tbody>
+			<!-- 목록 시작 -->
 			<c:forEach items="${list}" var="list">
 				<tr>
 					<td>${list.bno}</td>
@@ -43,40 +44,24 @@
 					<td>${list.viewCnt}</td>
 				</tr>
 			</c:forEach>
+			<!-- 목록 끝 -->
 		</tbody>				
 	</table>
 	
 	<div>
-	
-		<!-- (2)페이징 번호 10개씩 출력 [이전, 다음 버튼포함]-->
-		<c:if test="${page.prev}">
-			<span>[<a href="/board/listPage?num=${page.startPageNum - 1}">이전</a>]</span>
-		</c:if>
+		<ul>
+			<c:if test="${pageMaker.prev}">
+				<li><a href="listPage${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+			</c:if>
 
-		<c:forEach begin="${page.startPageNum}" end="${page.endPageNum}" var="num">
+			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+			<li><a href="listPage${pageMaker.makeQuery(idx)}">${idx}</a></li>
+			</c:forEach>
 			
-			<span>			
-				<!-- 현재 페이지일 경우 페이징 번호 굵게 처리 -->
-				<c:if test="${select != num}">
-					<a href="/board/listPage?num=${num}">${num}</a>
-				</c:if>
-	
-				<c:if test="${select == num}">
-					<b>${num}</b>
-				</c:if>
-			</span>
-		</c:forEach>
-
-		<c:if test="${page.next}">
-			<span>[<a href="/board/listPage?num=${page.endPageNum + 1}">다음</a>]</span>
-		</c:if>
-		
-		
-		<!-- (1)페이징 번호 전부다 출력 -->	
-		<%-- <c:forEach begin="1" end="${pageNum}" var="num">
-			<span><a href="/board/listPage?num=${num}">${num}</a></span>
-		</c:forEach> --%>
-		
+			<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+			<li><a href="listPage${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+			</c:if> 
+		</ul>
 	</div>
 	
 		<footer>

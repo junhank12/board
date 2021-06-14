@@ -9,6 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.board.domain.BoardVO;
+import com.board.domain.Criteria;
+import com.board.domain.SearchCriteria;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -19,12 +21,6 @@ public class BoardDAOImpl implements BoardDAO {
 	
 	// mapper
 	private static String namespace = "com.board.mappers.board";
-	
-	// 게시물 목록
-	@Override
-	public List<BoardVO> list() throws Exception {
-		return sql.selectList(namespace + ".list");
-	}
 
 	// 게시물 작성
 	@Override
@@ -45,50 +41,38 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	// 게시물 삭제
+	@Override
 	public void delete(int bno) throws Exception {
 		sql.delete(namespace + ".delete", bno);
 	}
 
 	// 게시물 총 갯수
 	@Override
-	public int count() throws Exception {
-		return sql.selectOne(namespace + ".count");
+	public int listCount() throws Exception {
+		return sql.selectOne(namespace + ".listCount");
 	}
 	
+	// 게시물 목록
+	@Override
+	public List<BoardVO> list() throws Exception {
+		return sql.selectList(namespace + ".list");
+	}
+
 	// 게시물 목록 + 페이징 처리
 	@Override
-	public List<BoardVO> listPage(int displayPost, int postNum) throws Exception {
-		HashMap<String, Integer> data = new HashMap<String, Integer>();
-		
-		data.put("displayPost", displayPost);
-		data.put("postNum", postNum);
-		
-		return sql.selectList(namespace + ".listPage", data);
+	public List<BoardVO> listPage(Criteria cri) throws Exception {
+		return sql.selectList(namespace + ".listPage", cri);
 	}
 
 	// 게시물 목록 + 페이징 + 검색
 	@Override
-	public List<BoardVO> listPageSearch(int displayPost, int postNum, String searchType, String keyword) throws Exception {		
-		HashMap<String, Object> data = new HashMap<String, Object>();
-		  
-		data.put("displayPost", displayPost);
-		data.put("postNum", postNum);
-
-		data.put("searchType", searchType);
-		data.put("keyword", keyword);
-
-		return sql.selectList(namespace + ".listPageSearch", data);
+	public List<BoardVO> listSearch(SearchCriteria scri) throws Exception {
+		return sql.selectList(namespace + ".listSearch", scri);
 	}
 
-	// 게시물 총 갯수 + 검색 적용
+	// 검색 결과 갯수
 	@Override
-	public int searchCount(String searchType, String keyword) throws Exception {
-	 
-		HashMap<String, Object> data = new HashMap<String, Object>();
-		 
-		data.put("searchType", searchType);
-		data.put("keyword", keyword);
-		 
-		return sql.selectOne(namespace + ".searchCount", data); 
+	public int countSearch(SearchCriteria scri) throws Exception {
+		return sql.selectOne(namespace + ".countSearch", scri); 
 	}
 }

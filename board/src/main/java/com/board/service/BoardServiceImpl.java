@@ -8,18 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.board.dao.BoardDAO;
 import com.board.domain.BoardVO;
+import com.board.domain.Criteria;
+import com.board.domain.SearchCriteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 	
 	@Inject
 	private BoardDAO dao;
-	
-	// 게시물 목록
-	@Override
-	public List<BoardVO> list() throws Exception {
-		return dao.list();
-	}
 
 	// 게시물 작성
 	@Override
@@ -48,25 +44,31 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 게시물 총 갯수
 	@Override
-	public int count() throws Exception {
-		return dao.count();
+	public int listCount() throws Exception {
+		return dao.listCount();
+	}
+	
+	// 게시물 목록
+	@Override
+	public List<BoardVO> list() throws Exception {
+		return dao.list();
 	}
 
 	// 게시물 목록 + 페이징
 	@Override
-	public List<BoardVO> listPage(int displayPost, int postNum) throws Exception {
-		return dao.listPage(displayPost, postNum);
+	public List<BoardVO> listPage(Criteria cri) throws Exception {
+		return dao.listPage(cri);
 	}
 	
 	// 게시물 목록 + 페이징 + 검색
 	@Override
-	public List<BoardVO> listPageSearch(int displayPost, int postNum, String searchType, String keyword) throws Exception {
-		return dao.listPageSearch(displayPost, postNum, searchType, keyword);
+	public List<BoardVO> listSearch(SearchCriteria scri) throws Exception {
+		return dao.listSearch(scri);
 	}
 
-	// 게시물 총 갯수
+	// 검색 결과 갯수
 	@Override
-	public int searchCount(String searchType, String keyword) throws Exception {
-		return dao.searchCount(searchType, keyword);
+	public int countSearch(SearchCriteria scri) throws Exception {
+		return dao.countSearch(scri);
 	}
 }

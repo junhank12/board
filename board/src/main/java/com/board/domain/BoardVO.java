@@ -6,13 +6,13 @@ public class BoardVO {
 	
 /*
 	create table tbl_board(
-		bno int not null auto_increment,
-		title varchar(50) not null,
-		content text not null,
-		writer varchar(30) not null,
-		regDate timestamp not null default now(),
-		viewCnt int default 0,
-		primary key(bno)
+	    bno number not null,                -- 글 번호
+	    title VARCHAR2(30) not null,        -- 제목
+	    content VARCHAR2(2000) not null,    -- 내용
+	    writer VARCHAR2(30) not null,       -- 작성자
+	    regDate date DEFAULT sysdate,       -- 작성일
+	    viewCnt number DEFAULT 0,           -- 조회수
+    primary key(bno)
 	);
  */
 

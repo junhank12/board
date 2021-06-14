@@ -3,11 +3,10 @@ package com.board.service;
 import java.util.List;
 
 import com.board.domain.BoardVO;
+import com.board.domain.Criteria;
+import com.board.domain.SearchCriteria;
 
 public interface BoardService {
-	
-	// 게시물 목록
-	public List<BoardVO> list() throws Exception;
 	
 	// 게시물 작성
 	public void write(BoardVO vo) throws Exception;
@@ -22,14 +21,17 @@ public interface BoardService {
 	public void delete(int bno) throws Exception;
 	
 	// 게시물 총 갯수
-	public int count() throws Exception;
+	public int listCount() throws Exception;
+	
+	// 게시물 목록
+	public List<BoardVO> list() throws Exception;
 	
 	// 게시물 목록 + 페이징
-	public List<BoardVO> listPage(int displayPost, int postNum) throws Exception;
+	public List<BoardVO> listPage(Criteria cri) throws Exception;
 	
 	// 게시물 목록 + 페이징 + 검색
-	public List<BoardVO> listPageSearch(int displayPost, int postNum, String searchType, String keyword) throws Exception;
+	public List<BoardVO> listSearch(SearchCriteria scri) throws Exception;
 	
-	// 게시물 총 갯수 + 검색 적용
-	public int searchCount(String searchType, String keyword) throws Exception;
+	// 검색 결과 갯수
+	public int countSearch(SearchCriteria scri) throws Exception;
 }
